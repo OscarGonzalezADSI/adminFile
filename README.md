@@ -65,7 +65,7 @@ archivoJson.setWrite(contenido)
 
 print(archivoJson.getRead())
 
-#transforma el archivo json en csv
+# transforma el archivo json en csv
 
 archivoJson3 = AdminFile("archivoJson.json")
 
