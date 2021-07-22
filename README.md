@@ -16,6 +16,7 @@ archivo.addWrite("4;jose;perez;3134563467;")
 print(archivo.getRead())
 
 # transforma el archivo csv en Json
+
 archivoCSV = AdminFile("base.csv")
 
 archivoJson = AdminFile("baseJson.json")
