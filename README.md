@@ -27,7 +27,7 @@ archivoJson.setWrite(contenido)
 
 print(archivoJson.getRead())
 
-#transforma el archivo json en csv
+# transforma el archivo json en csv
 
 archivoJson3 = AdminFile("baseJson.json")
 
@@ -40,6 +40,7 @@ archivoCSV.setWrite(contenido)
 print(archivoCSV.getRead())
 
 # archivo de Excel normal con nombres de columnas
+
 archivo1 = AdminFile("archivoExcel.csv")
 
 archivo1.createFile()
