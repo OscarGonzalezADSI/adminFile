@@ -1,20 +1,5 @@
 from adminFile import AdminFile
 
-
-
-
-# crea el archivo csv
-archivo = AdminFile("base.csv")
-archivo.createFile()
-archivo.setWrite("1;maria;florencia;3225645345;")
-archivo.addWrite("2;oscar;gonzalez;3228858439;")
-archivo.addWrite("3;manuel;gutierrez;3134563202;")
-archivo.addWrite("4;jose;perez;3134563467;")
-print(archivo.getRead())
-
-
-
-"""
 # crea el archivo csv
 archivo = AdminFile("base.csv")
 archivo.createFile()
@@ -31,7 +16,7 @@ contenido = archivoCSV.toJson()
 archivoJson.setWrite(contenido)
 print(archivoJson.getRead())
 
-#transforma el archivo json en csv
+# transforma el archivo json en csv
 archivoJson3 = AdminFile("baseJson.json")
 archivoCSV = AdminFile("base.csv")
 contenido = archivoJson3.fromJsonToCSV()
@@ -54,13 +39,26 @@ contenido = archivoCSV2.toJsonStringKeys()
 archivoJson.setWrite(contenido)
 print(archivoJson.getRead())
 
-#transforma el archivo json en csv
+# transforma el archivo json en csv
 archivoJson3 = AdminFile("archivoJson.json")
 archivoCSV = AdminFile("archivoExcel2.csv")
 contenido = archivoJson3.fromJsonToCSVformal()
 archivoCSV.setWrite(contenido)
 print(archivoCSV.getRead())
-"""
 
+
+# genera modelo de datos Mysql
+clientes = AdminFile("productos.csv")
+clientes.setNameTableMysql("productos")
+clientes.setColsMysql("cod;nombre;apellido;celular;ciudad;")
+clientes.setTypeDataMysql("int;varchar;varchar;varchar;varchar;")
+clientes.setSizeDataMysql("11;30;50;60;70;")
+clientes.setRowMysql("1;oscar;gonzalez;3228858439;cucuta;")
+
+print()
+print(clientes.createTableMysql()+"\n")
+print(clientes.getQueryInsertMysql()+"\n")
+print(clientes.getQueryUpdateMysql()+"\n")
+print(clientes.getQueryDeleteMysql()+"\n")
 
 

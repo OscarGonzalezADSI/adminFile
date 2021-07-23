@@ -274,10 +274,154 @@ class AdminFile:
         
         self.setWrite(exit)
 
+    def setNameTableMysql(self, nombreTabla):
+        self.nombreTabla = nombreTabla
+
+    def setColsMysql(self, campos):
+        self.campos = campos
+        cols = self.campos.split(";")[:-1]
+        self.campos=""
+        i=0
+        while(len(cols) > i):
+            self.campos += "'"+cols[i]+"',"
+            i=i+1
+    
+        self.campos = self.campos[:-1]
 
 
+    def setRowMysql(self, datos):
+        self.datos = datos
+        rows = self.datos.split(";")[:-1]
+        self.datos=""
+        i=0
+        while(len(rows) > i):
+            self.datos += "'"+rows[i]+"',"
+            i=i+1
+    
+        self.datos = self.datos[:-1]
 
 
+    def setTypeDataMysql(self, typeData):
+        self.typeData = typeData
+        cols = self.typeData.split(";")[:-1]
+        self.typeData=""
+        i=0
+        while(len(cols) > i):
+            self.typeData += "'"+cols[i]+"',"
+            i=i+1
+    
+        self.typeData = self.typeData[:-1]
+
+
+    def setSizeDataMysql(self, sizeData):
+        self.sizeData = sizeData
+        cols = self.sizeData.split(";")[:-1]
+        self.sizeData=""
+        i=0
+        while(len(cols) > i):
+            self.sizeData += "'"+cols[i]+"',"
+            i=i+1
+    
+        self.sizeData = self.sizeData[:-1]
+
+
+    def createTableMysql(self):
+        campos = self.campos.split(",")
+        typeData = self.typeData.split(",")
+        sizeData = self.sizeData.split(",")
+        
+        create = "CREATE TABLE " + self.nombreTabla + "(\n"
+        
+        i = 0
+        while(len(campos) > i):
+            if(i == 0):
+                create += campos[i].split("'")[1] 
+                create += " int auto_incrememt PRIMARY KEY,\n"
+            if(typeData[i].split("'")[1] == "date"):
+                create += campos[i].split("'")[1]+" "
+                create += typeData[i].split("'")[1]+",\n"
+            else:
+                create += campos[i].split("'")[1]+" "
+                create += typeData[i].split("'")[1] +"("
+                create += sizeData[i].split("'")[1] +"),\n"
+            i = i + 1
+        
+        create = create[:-2] + "\n);"
+        
+        return create
+        
+
+    def getQueryInsertMysql(self):
+        
+        contenido = "INSERT INTO "
+        contenido += self.nombreTabla + "("
+        contenido += "\n" + self.campos +"\n)VALUES(\n"
+        contenido += self.datos + ");"
+
+        return contenido
+
+
+    def getQueryUpdateMysql(self):
+        cambios = "UPDATE FROM "+self.nombreTabla+" SET\n" 
+        campos = self.campos.split(",")
+        datos = self.datos.split(",")
+        
+        i = 1
+        while(len(campos) > i):
+            cambios += campos[i]+"="+datos[i]+",\n"
+            i = i+1
+        
+        condiciones = "WHERE "+campos[0]+"="+datos[0]
+        
+        self.queryUpdate = cambios[:-2] +"\n"+ condiciones
+        
+        return self.queryUpdate
+        
+        
+    def getQueryDeleteMysql(self):
+        campos = self.campos.split(",")
+        datos = self.datos.split(",")
+        delete = "DELETE FROM " + self.nombreTabla
+        condiciones = "\nWHERE "+campos[0]+"="+datos[0]
+        
+        self.queryDelete = delete + condiciones
+               
+        return self.queryDelete
+
+    def data(self,campos):
+        self.registro={}
+        self.arrayDato={}
+        self.arrayCampo = campos.split(";")
+
+    def setData(self,datos):
+        self.arrayDato = datos.split(";")
+
+    def setDataConsole(self):
+        i=0
+        while(len(self.arrayCampo) > i+1):
+            self.arrayDato[i] = str(input(self.arrayCampo[i]+":"))
+            i=i+1
+
+    def getDataJson(self):
+        if(len(self.arrayDato) > 0):
+            i=0
+            while(len(self.arrayCampo) > i+1):
+                self.registro[self.arrayCampo[i]] = self.arrayDato[i]
+                i=i+1
+            return self.registro
+        else:
+            return "no hay datos"
+
+    def getDataCSV(self):
+        if(len(self.arrayDato) > 0):
+            cadena = ""
+            i=0
+            while(len(self.arrayCampo) > i+1):
+                cadena += self.arrayDato[i]+";"
+                i=i+1
+            return cadena
+        else:
+            return "no hay datos"
 
 
 
